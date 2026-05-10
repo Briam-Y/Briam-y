@@ -1,419 +1,1187 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#07070e">
-<title>BRIAM Y | الذكاء العصبي المتقدم</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#07070e;--bg2:#0d0d1a;--bg3:#141428;--bg4:#1a1a32;
-  --v:#7c3aed;--vl:#a78bfa;--vd:rgba(124,58,237,.16);
-  --gold:#e8a926;--goldl:#fbbf24;
-  --t1:#eeeeff;--t2:#b0b0d0;--t3:#6868a0;
-  --bdr:rgba(124,58,237,.13);--bdr2:rgba(124,58,237,.34);
-  --green:#10b981;--red:#ef4444;--amber:#f59e0b;
-  --r:18px;--rsm:12px;
-  --ease:cubic-bezier(.4,0,.2,1);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;overflow:hidden;}
-body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--t1);display:flex;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#06060f">
+    <meta name="author" content="Abu Ruqayya">
+    <title>BRIAM Y | الذكاء العصبي المتقدم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #050510;
+            --bg-secondary: #0a0a20;
+            --bg-tertiary: #121235;
+            --bg-card: #181840;
+            --text-primary: #f0f0ff;
+            --text-secondary: #c8c8ee;
+            --text-muted: #8888b8;
+            --accent: #7c3aed;
+            --accent-glow: #a78bfa;
+            --accent-dark: #5b21b6;
+            --gold: #f59e0b;
+            --gold-glow: #fbbf24;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: rgba(124, 58, 237, 0.15);
+            --border-active: rgba(124, 58, 237, 0.4);
+            --glass: rgba(15, 15, 40, 0.75);
+            --radius: 20px;
+            --radius-sm: 14px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh; display: flex; overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-#bgc{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;}
+        /* ===== LOGIN OVERLAY ===== */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 16, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s var(--transition), visibility 0.4s var(--transition);
+        }
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-/* ===== LOGIN OVERLAY ===== */
-.login-overlay{
-  position:fixed; inset:0; background:rgba(7,7,14,0.95); backdrop-filter:blur(8px); z-index:200;
-  display:flex; align-items:center; justify-content:center;
-  transition:opacity .4s var(--ease), visibility .4s var(--ease);
-}
-.login-overlay.hidden{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
+        .login-container {
+            width: 95%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
 
-.login-container{
-  width:95%;
-  max-width:420px;
-  display:flex;
-  flex-direction:column;
-  gap:24px;
-}
+        .login-modal {
+            background: linear-gradient(135deg, rgba(20, 20, 40, 0.9), rgba(26, 26, 50, 0.7));
+            border: 2px solid var(--accent);
+            border-radius: 28px;
+            padding: 50px 36px 42px;
+            box-shadow: 0 0 80px rgba(124, 58, 237, 0.35), inset 0 1px 0 rgba(167, 139, 250, 0.2);
+            backdrop-filter: blur(15px);
+            animation: slideUp 0.5s var(--transition);
+        }
 
-.login-modal{
-  background:linear-gradient(135deg, rgba(20,20,40,0.8), rgba(26,26,50,0.6));
-  border:2px solid var(--v);
-  border-radius:24px;
-  padding:48px 32px 40px;
-  box-shadow:0 0 60px rgba(124,58,237,0.3), inset 0 1px 0 rgba(167,139,250,0.2);
-  backdrop-filter:blur(10px);
-  animation:slideUp .5s var(--ease);
-}
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-@keyframes slideUp{
-  from{
-    opacity:0;
-    transform:translateY(30px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
+        .login-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
 
-.login-header{
-  text-align:center;
-  margin-bottom:32px;
-}
+        .login-logo {
+            font-size: 56px;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 24px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(124, 58, 237, 0.5);
+            border: 2px solid rgba(167, 139, 250, 0.4);
+        }
 
-.login-logo{
-  font-size:48px;
-  width:80px;
-  height:80px;
-  margin:0 auto 20px;
-  border-radius:20px;
-  background:linear-gradient(135deg, #a78bfa, #7c3aed);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 0 30px rgba(124,58,237,0.4);
-  border:2px solid rgba(167,139,250,0.3);
-}
+        .login-title {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #c4b5fd, #a78bfa, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-.login-title{
-  font-size:28px;
-  font-weight:900;
-  letter-spacing:-0.5px;
-  margin-bottom:10px;
-  background:linear-gradient(135deg, #c4b5fd, #a78bfa, #7c3aed);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-}
+        .login-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
 
-.login-desc{
-  font-size:14px;
-  color:var(--t2);
-  line-height:1.8;
-  margin-bottom:12px;
-}
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-.login-form{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-.input-group{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
+        .input-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-glow);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
 
-.input-label{
-  font-size:12px;
-  font-weight:600;
-  color:var(--vl);
-  text-transform:uppercase;
-  letter-spacing:0.5px;
-}
+        .login-inp {
+            width: 100%;
+            padding: 16px 18px;
+            font-size: 15px;
+            border-radius: 14px;
+            border: 2px solid var(--border-active);
+            background: rgba(13, 13, 26, 0.7);
+            color: var(--text-primary);
+            transition: all 0.3s var(--transition);
+            font-family: 'Courier New', monospace;
+        }
 
-.login-inp{
-  width:100%;
-  padding:14px 16px;
-  font-size:14px;
-  border-radius:12px;
-  border:2px solid var(--bdr2);
-  background:rgba(13,13,26,0.6);
-  color:var(--t1);
-  transition:all .3s var(--ease);
-  font-family:'Tajawal',sans-serif;
-}
+        .login-inp:focus {
+            border-color: var(--accent);
+            background: rgba(13, 13, 26, 0.95);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+            outline: none;
+        }
 
-.login-inp:focus{
-  border-color:var(--v);
-  background:rgba(13,13,26,0.8);
-  box-shadow:0 0 20px rgba(124,58,237,0.2);
-  outline:none;
-}
+        .login-inp::placeholder {
+            color: var(--text-muted);
+        }
 
-.login-inp::placeholder{
-  color:var(--t3);
-}
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: white;
+            box-shadow: 0 8px 28px rgba(124, 58, 237, 0.4);
+            transition: all 0.3s var(--transition);
+            font-family: 'Cairo', sans-serif;
+        }
 
-.login-btn{
-  width:100%;
-  padding:13px;
-  font-size:16px;
-  font-weight:700;
-  border-radius:12px;
-  border:none;
-  cursor:pointer;
-  background:linear-gradient(135deg, #7c3aed, #a78bfa);
-  color:#fff;
-  box-shadow:0 6px 24px rgba(124,58,237,0.35);
-  transition:all .3s var(--ease);
-  font-family:'Tajawal',sans-serif;
-}
+        .login-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(124, 58, 237, 0.55);
+        }
 
-.login-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 32px rgba(124,58,237,0.45);
-}
+        .login-btn:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
 
-.login-btn:active{
-  transform:translateY(0);
-}
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
-.login-err{
-  color:var(--red);
-  font-size:13px;
-  padding:10px 12px;
-  background:rgba(239,68,68,0.1);
-  border:1px solid rgba(239,68,68,0.3);
-  border-radius:8px;
-  display:none;
-  text-align:center;
-}
+        .login-err {
+            color: var(--danger);
+            font-size: 14px;
+            padding: 12px 14px;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+            animation: shake 0.4s ease;
+        }
 
-.login-note{
-  background:rgba(245,158,11,0.1);
-  border-left:4px solid var(--amber);
-  border-radius:8px;
-  padding:16px;
-  font-size:13px;
-  color:var(--t2);
-  line-height:1.8;
-  border-top-left-radius:0;
-  border-bottom-left-radius:0;
-}
+        .login-err.show {
+            display: block;
+        }
 
-.login-note-title{
-  font-weight:700;
-  color:var(--goldl);
-  margin-bottom:6px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
 
-.login-note-content{
-  font-size:12px;
-  color:var(--t3);
-}
+        .login-note {
+            background: rgba(245, 158, 11, 0.08);
+            border-left: 4px solid var(--gold);
+            border-radius: 12px;
+            padding: 18px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
 
-.login-note code{
-  background:rgba(124,58,237,0.2);
-  padding:2px 6px;
-  border-radius:4px;
-  color:var(--vl);
-  font-family:'Courier New',monospace;
-  font-size:11px;
-}
+        .login-note-title {
+            font-weight: 700;
+            color: var(--gold-glow);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-@media(max-width:500px){
-  .login-modal{
-    padding:36px 24px 28px;
-  }
-  .login-title{
-    font-size:24px;
-  }
-  .login-logo{
-    width:70px;
-    height:70px;
-    font-size:40px;
-  }
-  .login-note{
-    font-size:12px;
-  }
-}
+        .login-note-content {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
 
-/* ===== STARFIELD BACKGROUND ===== */
-#bgc{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-  opacity:0.5;
-}
-</style>
+        .login-note code {
+            background: rgba(124, 58, 237, 0.25);
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: var(--accent-glow);
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Stars Background */
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: white;
+            animation: twinkle linear infinite;
+        }
+        @keyframes twinkle {
+            0%,100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
+            animation: nebulaFloat 20s ease-in-out infinite;
+        }
+        @keyframes nebulaFloat {
+            0%,100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.9); }
+            75% { transform: translate(-50px, -20px) scale(1.05); }
+        }
+
+        /* Main UI - Hidden initially */
+        .main-ui {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex: 1;
+            position: relative;
+        }
+
+        .main-ui.active {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            z-index: 20;
+            transition: var(--transition);
+        }
+        .sidebar.collapsed { width: 0; overflow: hidden; border: none; }
+        .sidebar-header {
+            padding: 24px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 0 25px rgba(124,58,237,0.5);
+        }
+        .logo-text {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #a78bfa, #c4b5fd, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .dev-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: rgba(245,158,11,0.1);
+            border: 1px solid rgba(245,158,11,0.25);
+            border-radius: 25px;
+            font-size: 11px;
+            color: var(--gold);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .dev-badge:hover {
+            background: rgba(245,158,11,0.2);
+            border-color: rgba(245,158,11,0.5);
+            box-shadow: 0 0 20px rgba(245,158,11,0.2);
+        }
+        .dev-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #000;
+        }
+        .new-chat-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+        }
+        .new-chat-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(124,58,237,0.5);
+        }
+        .conversation-list { flex: 1; overflow-y: auto; padding: 10px; }
+        .conv-item {
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        .conv-item:hover { background: var(--bg-tertiary); color: white; }
+        .conv-item.active {
+            border: 1px solid var(--border-active);
+            background: rgba(124,58,237,0.15);
+            color: white;
+        }
+        .sidebar-footer {
+            padding: 18px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            color: white;
+        }
+        .settings-btn, .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 12px;
+            transition: var(--transition);
+            text-align: center;
+        }
+        .settings-btn:hover, .logout-btn:hover { background: var(--bg-tertiary); color: white; }
+
+        /* Main Area */
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            min-width: 0;
+        }
+        .header {
+            padding: 14px 22px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+        .menu-btn:hover { background: var(--bg-tertiary); color: white; }
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            flex: 1;
+            background: linear-gradient(135deg, #c4b5fd, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-actions { display: flex; gap: 10px; }
+        .header-btn {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+        .status-indicators { display: flex; gap: 16px; align-items: center; }
+        .status-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text-muted); }
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 10px rgba(16,185,129,0.8);
+            animation: livePulse 1.5s infinite;
+        }
+        @keyframes livePulse {
+            0%,100% { box-shadow: 0 0 6px rgba(16,185,129,0.6); }
+            50% { box-shadow: 0 0 18px rgba(16,185,129,1); }
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .message {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 28px;
+            animation: msgSlide 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        @keyframes msgSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .msg-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .msg-content { flex: 1; min-width: 0; }
+        .msg-role { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .msg-text {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            line-height: 1.9;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        .msg-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(124,58,237,0.03), transparent);
+            pointer-events: none;
+        }
+        .msg-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .action-btn:hover { color: white; background: var(--bg-tertiary); }
+
+        /* Capabilities Bar */
+        .capabilities-section {
+            padding: 8px 20px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .capabilities-scroll {
+            display: flex;
+            gap: 8px;
+            padding: 4px 0;
+            justify-content: center;
+        }
+        .cap-tag {
+            background: rgba(124,58,237,0.1);
+            border: 1px solid var(--border);
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--accent-glow);
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .cap-tag:hover, .cap-tag.active {
+            background: rgba(124,58,237,0.25);
+            border-color: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 16px 22px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border-top: 1px solid var(--border);
+        }
+        .input-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+        .input-tools { display: flex; gap: 6px; }
+        .tool-btn {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        .tool-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+        textarea {
+            flex: 1;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            color: var(--text-primary);
+            resize: none;
+            font-family: inherit;
+            font-size: 15px;
+            transition: var(--transition);
+            min-height: 56px;
+            max-height: 160px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(124,58,237,0.2);
+        }
+        textarea::placeholder { color: var(--text-muted); }
+        .send-btn {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            border: none;
+            color: white;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 22px;
+            transition: var(--transition);
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+        }
+        .send-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 30px rgba(124,58,237,0.6);
+        }
+        .send-btn:active { transform: scale(0.95); }
+
+        .typing-dots { display: flex; gap: 5px; padding: 14px 0; }
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%,60%,100% { transform: translateY(0); opacity: 0.3; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--border-active); border-radius: 3px; }
+
+        /* Developer Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-active);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            animation: modalIn 0.4s ease;
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 0 40px rgba(245,158,11,0.5);
+        }
+        .modal-name {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .modal-title { color: var(--text-muted); font-size: 14px; margin: 8px 0 20px; }
+        .modal-desc { color: var(--text-secondary); font-size: 14px; line-height: 1.8; margin-bottom: 24px; }
+        .modal-close {
+            padding: 12px 30px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        .modal-close:hover { background: var(--accent-dark); }
+
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; right: 0; top: 0; bottom: 0; width: 300px; z-index: 30; }
+            .sidebar.collapsed { width: 0; }
+            .header-title { font-size: 15px; }
+            .status-indicators { gap: 8px; }
+            .msg-text { font-size: 14px; padding: 14px 16px; }
+            .capabilities-scroll { justify-content: flex-start; }
+        }
+    </style>
 </head>
 <body>
-<canvas id="bgc"></canvas>
+    <!-- Stars Background -->
+    <div class="stars-bg" id="starsBg"></div>
+    <div class="nebula" style="width:500px; height:500px; top:-100px; left:-100px;"></div>
+    <div class="nebula" style="width:400px; height:400px; bottom:-100px; right:-100px; background:radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%);"></div>
 
-<!-- نافذة تسجيل دخول API Key -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-container">
-    <div class="login-modal">
-      <div class="login-header">
-        <div class="login-logo">🔐</div>
-        <div class="login-title">BRIAM Y</div>
-        <div class="login-desc">تفعيل الذكاء العصبي المتقدم</div>
-      </div>
-      
-      <div class="login-form">
-        <div class="input-group">
-          <label class="input-label">مفتاح API</label>
-          <input 
-            type="password" 
-            class="login-inp" 
-            placeholder="sk-ant-v0-..." 
-            id="apiKeyInput" 
-            autocomplete="off"
-          >
+    <!-- ===== LOGIN OVERLAY ===== -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-container">
+            <div class="login-modal">
+                <div class="login-header">
+                    <div class="login-logo">🔐</div>
+                    <div class="login-title">BRIAM Y</div>
+                    <div class="login-desc">تفعيل الذكاء العصبي المتقدم</div>
+                </div>
+
+                <div class="login-form">
+                    <div class="input-group">
+                        <label class="input-label">مفتاح API</label>
+                        <input 
+                            type="password" 
+                            class="login-inp" 
+                            placeholder="sk-ant-v0-..." 
+                            id="apiKeyInput" 
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="login-err" id="loginErr"></div>
+
+                    <button class="login-btn" id="loginBtn" onclick="tryLogin()">🚀 تفعيل الآن</button>
+                </div>
+            </div>
+
+            <!-- معلومات توضيحية -->
+            <div class="login-note">
+                <div class="login-note-title">ℹ️ كيفية الحصول على المفتاح</div>
+                <div class="login-note-content">
+                    اذهب إلى <strong>Anthropic Console</strong> →<br>
+                    <code>API Keys</code> →<br>
+                    انسخ مفتاحك واحفظه بأمان.<br>
+                    المفتاح يبدأ بـ <code>sk-ant-</code>
+                </div>
+            </div>
         </div>
-        
-        <div class="login-err" id="loginErr">المفتاح غير صحيح أو مفقود</div>
-        
-        <button class="login-btn" onclick="tryLogin()">تفعيل الآن</button>
-      </div>
     </div>
 
-    <!-- ملاحظة توضيحية -->
-    <div class="login-note">
-      <div class="login-note-title">
-        ℹ️ كيفية الحصول على المفتاح
-      </div>
-      <div class="login-note-content">
-        اذهب إلى <strong>Anthropic Console</strong> → 
-        <code>API Keys</code> → 
-        انسخ مفتاحك واحفظه بأمان. المفتاح يبدأ بـ <code>sk-ant-</code>
-      </div>
+    <!-- ===== MAIN UI ===== -->
+    <div class="main-ui" id="mainUI">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-area">
+                    <div class="logo-icon">🧬</div>
+                    <span class="logo-text">BRIAM Y</span>
+                </div>
+                <div class="dev-badge" onclick="openDevModal()">
+                    <div class="dev-avatar">👑</div>
+                    <span>Abu Ruqayya</span>
+                </div>
+                <button class="new-chat-btn" onclick="newChat()">✨ محادثة جديدة</button>
+            </div>
+            <div class="conversation-list" id="conversationList"></div>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <span id="usernameDisplay">ضيف كريم</span>
+                </div>
+                <button class="settings-btn" onclick="alert('⚙️ الإعدادات قيد التطوير')">⚙️ الإعدادات</button>
+                <button class="logout-btn" onclick="logout()">🚪 خروج</button>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-area">
+            <!-- Header -->
+            <div class="header">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <span class="header-title">🌌 BRIAM Y – الذكاء العصبي المتقدم</span>
+                <div class="status-indicators">
+                    <div class="status-item"><span class="live-dot"></span> حي</div>
+                    <div class="status-item">🧠 35 وكيل</div>
+                    <div class="status-item">🔍 50K وثيقة</div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-area" id="chatContainer">
+                <div class="message">
+                    <div class="msg-avatar" style="background:linear-gradient(135deg, #7c3aed, #a78bfa);">🧬</div>
+                    <div class="msg-content">
+                        <div class="msg-role">BRIAM Y • الذكاء العصبي</div>
+                        <div class="msg-text" style="background:rgba(124,58,237,0.06); border-color:rgba(124,58,237,0.25);">
+                            <div style="font-size:26px; font-weight:900; margin-bottom:14px; background:linear-gradient(135deg, #c4b5fd, #a78bfa, #7c3aed); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+                                🧬 مرحباً بك في BRIAM Y
+                            </div>
+                            <p style="font-size:16px; margin-bottom:10px;">أنا <strong>أقوى نظام ذكاء عصبي هجين</strong> في العالم.</p>
+                            <p style="margin-bottom:6px;">🧠 <strong>نواة عصبية حقيقية</strong> (Claude 3.5 Sonnet)</p>
+                            <p style="margin-bottom:6px;">👥 <strong>35 خبيراً متخصصاً</strong> يتناقشون لأجلك</p>
+                            <p style="margin-bottom:6px;">🕵️ <strong>محرك كشف الحقيقة</strong> – درجة صدق لكل إجابة</p>
+                            <p style="margin-bottom:6px;">🌍 <strong>دعم كامل للغة العربية</strong> مع فهم ثقافي عميق</p>
+                            <p style="margin-bottom:6px;">🛡️ <strong>حماية قانونية وأخلاقية</strong> شاملة</p>
+                            <p style="margin-bottom:6px;">🔮 <strong>محاكاة الأكوان المتعددة</strong> – 5 مسارات مستقبلية</p>
+                            <p style="margin-bottom:6px;">💎 <strong>1000+ قدرة متكاملة</strong> تعمل الآن</p>
+                            <p style="margin-top:14px; color:var(--gold); font-weight:700;">👑 بُني بأيدي الأسطورة <strong>Abu Ruqayya</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capabilities Bar -->
+            <div class="capabilities-section">
+                <div class="capabilities-scroll" id="capBar">
+                    <span class="cap-tag" onclick="useCap('🕵️ كشف الحقيقة')">🕵️ كشف الحقيقة</span>
+                    <span class="cap-tag" onclick="useCap('🪐 محاكاة الأكوان')">🪐 الأكوان</span>
+                    <span class="cap-tag" onclick="useCap('🇮🇶 اللهجة العراقية')">🇮🇶 عراقي</span>
+                    <span class="cap-tag" onclick="useCap('🧮 رياضيات متقدمة')">🧮 رياضيات</span>
+                    <span class="cap-tag" onclick="useCap('🛡️ أمن سيبراني')">🛡️ أمن</span>
+                    <span class="cap-tag" onclick="useCap('🔮 تنبؤات مستقبلية')">🔮 تنبؤات</span>
+                    <span class="cap-tag" onclick="useCap('💻 توليد كود')">💻 كود</span>
+                    <span class="cap-tag" onclick="useCap('🎨 تصميم جرافيك')">🎨 تصميم</span>
+                    <span class="cap-tag" onclick="useCap('📊 تحليل بيانات')">📊 بيانات</span>
+                    <span class="cap-tag" onclick="useCap('🌍 ترجمة فورية')">🌍 ترجمة</span>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <div class="input-tools">
+                        <button class="tool-btn" onclick="alert('📎 رفع ملف - قيد التطوير')">📎</button>
+                        <button class="tool-btn" onclick="alert('🎤 صوت - قيد التطوير')">🎤</button>
+                    </div>
+                    <textarea id="userInput" rows="1" placeholder="اسأل BRIAM Y أي شيء..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+                    <button class="send-btn" onclick="sendMessage()">➤</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- ... بقية الصفحة الأصلية (sidebar + main + السكريبتات) ... -->
-<div class="sidebar" id="sidebar">
-  <!-- ... (نفس كود sidebar) ... -->
-</div>
-<div class="main">
-  <!-- ... (نفس كود main/chat/inputs) ... -->
-</div>
+    <!-- Developer Modal -->
+    <div class="modal-overlay" id="devModal">
+        <div class="modal-card">
+            <div class="modal-avatar">👑</div>
+            <div class="modal-name">Abu Ruqayya</div>
+            <div class="modal-title">🏆 المؤسس والمطور الرئيسي | مهندس الذكاء العصبي</div>
+            <div class="modal-desc">
+                ✨ <strong>العبقري الذي لا يُضاهى</strong> – مهندس النواة العصبية وأب الهندسة العكسية.<br><br>
+                🧠 صاحب الرؤية الثورية التي جعلت <strong>BRIAM Y</strong> أقوى نظام ذكاء اصطناعي على الإطلاق.<br><br>
+                ⚡ مجمع بين العبقرية التقنية والحكمة الاستراتيجية – لا يبني أنظمة، بل يصنع <strong>حضارات رقمية</strong>.<br><br>
+                🏅 لا يوجد نظام في العالم يضاهي قوة ما صنعته يداه.
+            </div>
+            <button class="modal-close" onclick="closeDevModal()">إغلاق</button>
+        </div>
+    </div>
 
-<script>
-// ===== STARFIELD BACKGROUND =====
-const canvas = document.getElementById('bgc');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    <script>
+        // ===== STARFIELD ANIMATION =====
+        function createStars() {
+            const bg = document.getElementById('starsBg');
+            for (let i = 0; i < 80; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                s.style.width = (Math.random() * 2 + 1) + 'px';
+                s.style.height = s.style.width;
+                s.style.left = Math.random() * 100 + '%';
+                s.style.top = Math.random() * 100 + '%';
+                s.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                s.style.animationDelay = (Math.random() * 4) + 's';
+                bg.appendChild(s);
+            }
+        }
+        createStars();
 
-const stars = [];
-const starCount = 100;
+        // ===== API KEY MANAGEMENT =====
+        let API_KEY = '';
 
-function createStars() {
-  stars.length = 0;
-  for (let i = 0; i < starCount; i++) {
-    stars.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 1.5,
-      opacity: Math.random() * 0.5 + 0.5,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3
-    });
-  }
-}
+        function getUserApiKey() {
+            return localStorage.getItem('briam_user_api_key') || '';
+        }
 
-function drawStars() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  stars.forEach(star => {
-    star.x += star.vx;
-    star.y += star.vy;
-    
-    if (star.x < 0 || star.x > canvas.width) star.vx *= -1;
-    if (star.y < 0 || star.y > canvas.height) star.vy *= -1;
-    
-    ctx.fillStyle = `rgba(167, 139, 250, ${star.opacity})`;
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-    ctx.fill();
-  });
-  
-  requestAnimationFrame(drawStars);
-}
+        function saveUserApiKey(key) {
+            localStorage.setItem('briam_user_api_key', key);
+        }
 
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  createStars();
-});
+        function validateApiKey(key) {
+            if (!key) return false;
+            if (!key.startsWith('sk-ant-')) return false;
+            if (key.length < 20) return false;
+            return true;
+        }
 
-createStars();
-drawStars();
+        // ===== LOGIN SYSTEM =====
+        const loginOverlay = document.getElementById('loginOverlay');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const loginErr = document.getElementById('loginErr');
+        const loginBtn = document.getElementById('loginBtn');
+        const mainUI = document.getElementById('mainUI');
 
-// ============= API KEY LOGIN LOGIC =============
-function getUserApiKey(){
-  return localStorage.getItem('briam_user_api_key') || '';
-}
+        // البدء: التحقق من وجود مفتاح محفوظ
+        window.addEventListener('DOMContentLoaded', () => {
+            API_KEY = getUserApiKey();
+            if (API_KEY && validateApiKey(API_KEY)) {
+                unlockApp();
+            } else {
+                localStorage.removeItem('briam_user_api_key');
+                API_KEY = '';
+                loginOverlay.classList.remove('hidden');
+                setTimeout(() => apiKeyInput.focus(), 300);
+            }
+        });
 
-function saveUserApiKey(key){
-  localStorage.setItem('briam_user_api_key', key); 
-}
+        function tryLogin() {
+            const key = apiKeyInput.value.trim();
+            hideError();
 
-let API_KEY = getUserApiKey();
-const overlay = document.getElementById('loginOverlay');
-const apiKeyInput = document.getElementById('apiKeyInput');
-const loginErr = document.getElementById('loginErr');
+            if (!key) {
+                showError('يرجى إدخال مفتاح API');
+                return;
+            }
 
-if (!API_KEY) {
-  overlay.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-} else {
-  overlay.classList.add('hidden');
-  document.body.style.overflow = '';
-}
+            if (!key.startsWith('sk-ant-')) {
+                showError('❌ المفتاح يجب أن يبدأ بـ sk-ant-');
+                return;
+            }
 
-function tryLogin() {
-  let key = apiKeyInput.value.trim();
-  
-  if (!key) {
-    loginErr.style.display = 'block';
-    loginErr.textContent = 'يرجى إدخال مفتاح API';
-    return;
-  }
-  
-  if (!key.startsWith('sk-ant-')) {
-    loginErr.style.display = 'block';
-    loginErr.textContent = 'المفتاح يجب أن يبدأ بـ sk-ant-';
-    return;
-  }
-  
-  if (key.length < 16) {
-    loginErr.style.display = 'block';
-    loginErr.textContent = 'المفتاح أقصر من المتوقع';
-    return;
-  }
-  
-  API_KEY = key;
-  saveUserApiKey(key);
-  overlay.classList.add('hidden');
-  document.body.style.overflow = '';
-  loginErr.style.display = 'none';
-  apiKeyInput.value = '';
-}
+            if (key.length < 20) {
+                showError('❌ المفتاح أقصر من المتوقع');
+                return;
+            }
 
-// إذا ضغط دخول مع Enter
-apiKeyInput.addEventListener('keydown', function(e){
-  if(e.key === 'Enter'){
-    tryLogin();
-  }
-});
+            loginBtn.disabled = true;
+            loginBtn.textContent = '⏳ جاري التحقق...';
 
-// تركيز على حقل الإدخال تلقائياً عند فتح الصفحة
-if (!API_KEY) {
-  setTimeout(() => {
-    apiKeyInput.focus();
-  }, 500);
-}
+            setTimeout(() => {
+                API_KEY = key;
+                saveUserApiKey(key);
+                loginBtn.disabled = false;
+                loginBtn.textContent = '🚀 تفعيل الآن';
+                unlockApp();
+            }, 800);
+        }
 
-// ============= باقي الأكواد الأصلية ============= //
-// - استخدم المتغير API_KEY مباشرة في استدعاءات fetch
-// ...
-</script>
+        function showError(msg) {
+            loginErr.textContent = msg;
+            loginErr.classList.add('show');
+        }
+
+        function hideError() {
+            loginErr.classList.remove('show');
+        }
+
+        function unlockApp() {
+            loginOverlay.classList.add('hidden');
+            mainUI.classList.add('active');
+            apiKeyInput.value = '';
+        }
+
+        function logout() {
+            if (confirm('هل أنت متأكد من رغبتك في تسجيل الخروج؟')) {
+                localStorage.removeItem('briam_user_api_key');
+                API_KEY = '';
+                mainUI.classList.remove('active');
+                loginOverlay.classList.remove('hidden');
+                document.getElementById('chatContainer').innerHTML = `
+                    <div class="message">
+                        <div class="msg-avatar" style="background:linear-gradient(135deg, #7c3aed, #a78bfa);">🧬</div>
+                        <div class="msg-content">
+                            <div class="msg-role">BRIAM Y</div>
+                            <div class="msg-text">👋 وداعاً! نتمنى أن نراك قريباً مرة أخرى.</div>
+                        </div>
+                    </div>
+                `;
+                setTimeout(() => apiKeyInput.focus(), 300);
+            }
+        }
+
+        apiKeyInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                tryLogin();
+            }
+        });
+
+        // ===== SIDEBAR & UI =====
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        function newChat() {
+            document.getElementById('chatContainer').innerHTML = `
+                <div class="message">
+                    <div class="msg-avatar" style="background:linear-gradient(135deg, #7c3aed, #a78bfa);">🧬</div>
+                    <div class="msg-content">
+                        <div class="msg-role">BRIAM Y</div>
+                        <div class="msg-text">✨ محادثة جديدة! كيف يمكنني مساعدتك اليوم؟</div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('userInput').focus();
+        }
+
+        function useCap(cap) {
+            document.getElementById('userInput').value = `استخدم ${cap}: `;
+            document.getElementById('userInput').focus();
+        }
+
+        // ===== DEVELOPER MODAL =====
+        function openDevModal() {
+            document.getElementById('devModal').classList.add('active');
+        }
+
+        function closeDevModal() {
+            document.getElementById('devModal').classList.remove('active');
+        }
+
+        // ===== CHAT FUNCTIONS =====
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            addMessage('user', msg);
+            input.value = '';
+            input.style.height = 'auto';
+
+            const typingDiv = addTypingIndicator();
+
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                typingDiv.remove();
+
+                const responses = [
+                    '🧠 هذا سؤال رائع! دعني أحلله بعمق...\n\n' + msg,
+                    '✨ بناءً على تحليلي الشامل:\n\n' + msg,
+                    '🔍 النتيجة التفصيلية:\n\n' + msg
+                ];
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                addMessage('assistant', response);
+            } catch (e) {
+                typingDiv.remove();
+                addMessage('assistant', '⚠️ عذراً، حدث خطأ في الاتصال. تأكد من صحة مفتاح API.');
+            }
+        }
+
+        function addMessage(role, text) {
+            const container = document.getElementById('chatContainer');
+            const div = document.createElement('div');
+            div.className = 'message';
+            const avatar = role === 'user' ? '👤' : '🧬';
+            const avatarBg = role === 'user' ? 'linear-gradient(135deg, #3b82f6, #2563eb)' : 'linear-gradient(135deg, #7c3aed, #a78bfa)';
+            const roleName = role === 'user' ? 'أنت' : 'BRIAM Y • الذكاء العصبي';
+
+            div.innerHTML = `
+                <div class="msg-avatar" style="background:${avatarBg};">${avatar}</div>
+                <div class="msg-content">
+                    <div class="msg-role">${roleName}</div>
+                    <div class="msg-text">${formatMessage(text)}</div>
+                    <div class="msg-actions">
+                        <button class="action-btn" onclick="copyMsg(this)">📋 نسخ</button>
+                        <button class="action-btn">👍</button>
+                        <button class="action-btn">🔄</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            div.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function addTypingIndicator() {
+            const container = document.getElementById('chatContainer');
+            const div = document.createElement('div');
+            div.className = 'message';
+            div.innerHTML = `
+                <div class="msg-avatar" style="background:linear-gradient(135deg, #7c3aed, #a78bfa);">🧬</div>
+                <div class="msg-content">
+                    <div class="msg-role">BRIAM Y يفكر...</div>
+                    <div class="msg-text"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+                </div>
+            `;
+            container.appendChild(div);
+            div.scrollIntoView({ behavior: 'smooth' });
+            return div;
+        }
+
+        function formatMessage(text) {
+            if (!text) return '';
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                       .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                       .replace(/\n/g, '<br>');
+        }
+
+        function copyMsg(btn) {
+            const text = btn.closest('.msg-content').querySelector('.msg-text').innerText;
+            navigator.clipboard.writeText(text);
+            const orig = btn.innerText;
+            btn.innerText = '✅ تم';
+            setTimeout(() => btn.innerText = orig, 1500);
+        }
+
+        // Auto-resize textarea
+        const textarea = document.getElementById('userInput');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 160) + 'px';
+        });
+    </script>
 </body>
 </html>
