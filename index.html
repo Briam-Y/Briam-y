@@ -22,108 +22,397 @@ html,body{height:100%;overflow:hidden;}
 body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--t1);display:flex;}
 
 #bgc{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;}
-/* ... بقية التنسيق السابق ... */
-/* المغزى هنا: بقية الـ CSS كما هي لضمان الحفاظ على هوية وتصميم المشروع */
+
 /* ===== LOGIN OVERLAY ===== */
 .login-overlay{
-  position:fixed; inset:0; background:rgba(42,21,65,0.98); z-index:200;
+  position:fixed; inset:0; background:rgba(7,7,14,0.95); backdrop-filter:blur(8px); z-index:200;
   display:flex; align-items:center; justify-content:center;
-  transition:opacity .4s var(--ease); opacity:1;
+  transition:opacity .4s var(--ease), visibility .4s var(--ease);
 }
+.login-overlay.hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.login-container{
+  width:95%;
+  max-width:420px;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
 .login-modal{
-  background:var(--bg4); border:2px solid var(--v); box-shadow:0 0 40px #7c3aed42;
-  border-radius:30px; padding:42px 34px 30px; max-width:340px; width:92%; text-align:center;
-  animation:mIn .4s var(--ease);
+  background:linear-gradient(135deg, rgba(20,20,40,0.8), rgba(26,26,50,0.6));
+  border:2px solid var(--v);
+  border-radius:24px;
+  padding:48px 32px 40px;
+  box-shadow:0 0 60px rgba(124,58,237,0.3), inset 0 1px 0 rgba(167,139,250,0.2);
+  backdrop-filter:blur(10px);
+  animation:slideUp .5s var(--ease);
 }
+
+@keyframes slideUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.login-header{
+  text-align:center;
+  margin-bottom:32px;
+}
+
 .login-logo{
-  font-size:36px; margin-bottom:14px; border-radius:16px;
-  background:linear-gradient(135deg,#a78bfa,#7c3aed);width:66px;height:66px;
-  display:flex;align-items:center;justify-content:center;margin:0 auto 13px;box-shadow:0 0 16px #c4b5fd27;
+  font-size:48px;
+  width:80px;
+  height:80px;
+  margin:0 auto 20px;
+  border-radius:20px;
+  background:linear-gradient(135deg, #a78bfa, #7c3aed);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 0 30px rgba(124,58,237,0.4);
+  border:2px solid rgba(167,139,250,0.3);
 }
+
 .login-title{
-  font-size:25px;font-weight:900;letter-spacing:-1px;margin-bottom:13px;
-  background:linear-gradient(135deg,#c4b5fd,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:-0.5px;
+  margin-bottom:10px;
+  background:linear-gradient(135deg, #c4b5fd, #a78bfa, #7c3aed);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
 }
+
 .login-desc{
-  font-size:15px;color:var(--t2);margin-bottom:21px;line-height:1.7;}
+  font-size:14px;
+  color:var(--t2);
+  line-height:1.8;
+  margin-bottom:12px;
+}
+
+.login-form{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.input-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.input-label{
+  font-size:12px;
+  font-weight:600;
+  color:var(--vl);
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
 .login-inp{
-  width:100%;padding:13px 12px;font-size:15px;text-align:center;border-radius:11px;margin-bottom:17px;outline:none;
-  border:2px solid var(--bdr2);background:var(--bg2);color:var(--t1);transition:.2s;
+  width:100%;
+  padding:14px 16px;
+  font-size:14px;
+  border-radius:12px;
+  border:2px solid var(--bdr2);
+  background:rgba(13,13,26,0.6);
+  color:var(--t1);
+  transition:all .3s var(--ease);
+  font-family:'Tajawal',sans-serif;
 }
-.login-inp:focus{border-color:var(--v);}
+
+.login-inp:focus{
+  border-color:var(--v);
+  background:rgba(13,13,26,0.8);
+  box-shadow:0 0 20px rgba(124,58,237,0.2);
+  outline:none;
+}
+
+.login-inp::placeholder{
+  color:var(--t3);
+}
+
 .login-btn{
-  width:100%;padding:11px;font-size:17px;font-weight:700;border-radius:13px;border:none;cursor:pointer;
-  background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;box-shadow:0 6px 24px #7c3aed29;transition:.2s;
+  width:100%;
+  padding:13px;
+  font-size:16px;
+  font-weight:700;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(135deg, #7c3aed, #a78bfa);
+  color:#fff;
+  box-shadow:0 6px 24px rgba(124,58,237,0.35);
+  transition:all .3s var(--ease);
+  font-family:'Tajawal',sans-serif;
 }
-.login-btn:active{transform:scale(.96);}
-.login-err{color:var(--red);font-size:13px;margin-bottom:9px;display:none;}
-@media(max-width:460px){.login-modal{padding:28px 5vw 20px;}}
+
+.login-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 32px rgba(124,58,237,0.45);
+}
+
+.login-btn:active{
+  transform:translateY(0);
+}
+
+.login-err{
+  color:var(--red);
+  font-size:13px;
+  padding:10px 12px;
+  background:rgba(239,68,68,0.1);
+  border:1px solid rgba(239,68,68,0.3);
+  border-radius:8px;
+  display:none;
+  text-align:center;
+}
+
+.login-note{
+  background:rgba(245,158,11,0.1);
+  border-left:4px solid var(--amber);
+  border-radius:8px;
+  padding:16px;
+  font-size:13px;
+  color:var(--t2);
+  line-height:1.8;
+  border-top-left-radius:0;
+  border-bottom-left-radius:0;
+}
+
+.login-note-title{
+  font-weight:700;
+  color:var(--goldl);
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.login-note-content{
+  font-size:12px;
+  color:var(--t3);
+}
+
+.login-note code{
+  background:rgba(124,58,237,0.2);
+  padding:2px 6px;
+  border-radius:4px;
+  color:var(--vl);
+  font-family:'Courier New',monospace;
+  font-size:11px;
+}
+
+@media(max-width:500px){
+  .login-modal{
+    padding:36px 24px 28px;
+  }
+  .login-title{
+    font-size:24px;
+  }
+  .login-logo{
+    width:70px;
+    height:70px;
+    font-size:40px;
+  }
+  .login-note{
+    font-size:12px;
+  }
+}
+
+/* ===== STARFIELD BACKGROUND ===== */
+#bgc{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.5;
+}
 </style>
 </head>
 <body>
 <canvas id="bgc"></canvas>
 
-<!-- نافذة تسجيل دخول api key -->
+<!-- نافذة تسجيل دخول API Key -->
 <div class="login-overlay" id="loginOverlay">
-  <div class="login-modal">
-    <div class="login-logo">🔑</div>
-    <div class="login-title">تسجيل الدخول</div>
-    <div class="login-desc">الرجاء إدخال مفتاح <span style="color:var(--vl);font-weight: bold;">API</span> الخاص بك لتفعيل الذكاء ��لعصبي.</div>
-    <input type="password" class="login-inp" placeholder="ادخل مفتاح API هنا..." id="apiKeyInput" autocomplete="off">
-    <div class="login-err" id="loginErr">المفتاح غير صحيح أو مفقود.</div>
-    <button class="login-btn" onclick="tryLogin()">دخول</button>
+  <div class="login-container">
+    <div class="login-modal">
+      <div class="login-header">
+        <div class="login-logo">🔐</div>
+        <div class="login-title">BRIAM Y</div>
+        <div class="login-desc">تفعيل الذكاء العصبي المتقدم</div>
+      </div>
+      
+      <div class="login-form">
+        <div class="input-group">
+          <label class="input-label">مفتاح API</label>
+          <input 
+            type="password" 
+            class="login-inp" 
+            placeholder="sk-ant-v0-..." 
+            id="apiKeyInput" 
+            autocomplete="off"
+          >
+        </div>
+        
+        <div class="login-err" id="loginErr">المفتاح غير صحيح أو مفقود</div>
+        
+        <button class="login-btn" onclick="tryLogin()">تفعيل الآن</button>
+      </div>
+    </div>
+
+    <!-- ملاحظة توضيحية -->
+    <div class="login-note">
+      <div class="login-note-title">
+        ℹ️ كيفية الحصول على المفتاح
+      </div>
+      <div class="login-note-content">
+        اذهب إلى <strong>Anthropic Console</strong> → 
+        <code>API Keys</code> → 
+        انسخ مفتاحك واحفظه بأمان. المفتاح يبدأ بـ <code>sk-ant-</code>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ... بقية الصفحة الأصلية (sidebar + main + السكريبتات) بدون أي تغيير إلا في الكود أدناه ... -->
+<!-- ... بقية الصفحة الأصلية (sidebar + main + السكريبتات) ... -->
 <div class="sidebar" id="sidebar">
   <!-- ... (نفس كود sidebar) ... -->
 </div>
 <div class="main">
   <!-- ... (نفس كود main/chat/inputs) ... -->
 </div>
+
 <script>
-// ===== STARFIELD =====
-// ... (نفس الكود السابق) ...
+// ===== STARFIELD BACKGROUND =====
+const canvas = document.getElementById('bgc');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const stars = [];
+const starCount = 100;
+
+function createStars() {
+  stars.length = 0;
+  for (let i = 0; i < starCount; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5,
+      opacity: Math.random() * 0.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3
+    });
+  }
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  stars.forEach(star => {
+    star.x += star.vx;
+    star.y += star.vy;
+    
+    if (star.x < 0 || star.x > canvas.width) star.vx *= -1;
+    if (star.y < 0 || star.y > canvas.height) star.vy *= -1;
+    
+    ctx.fillStyle = `rgba(167, 139, 250, ${star.opacity})`;
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  
+  requestAnimationFrame(drawStars);
+}
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  createStars();
+});
+
+createStars();
+drawStars();
 
 // ============= API KEY LOGIN LOGIC =============
 function getUserApiKey(){
-  return localStorage.getItem('briam_user_api_key')||'';
+  return localStorage.getItem('briam_user_api_key') || '';
 }
+
 function saveUserApiKey(key){
-  localStorage.setItem('briam_user_api_key',key); 
+  localStorage.setItem('briam_user_api_key', key); 
 }
+
 let API_KEY = getUserApiKey();
 const overlay = document.getElementById('loginOverlay');
 const apiKeyInput = document.getElementById('apiKeyInput');
 const loginErr = document.getElementById('loginErr');
 
 if (!API_KEY) {
-  overlay.style.display = 'flex';
+  overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 } else {
-  overlay.style.display = 'none';
+  overlay.classList.add('hidden');
   document.body.style.overflow = '';
 }
+
 function tryLogin() {
   let key = apiKeyInput.value.trim();
-  if (!key || key.length < 16) {
+  
+  if (!key) {
     loginErr.style.display = 'block';
-    loginErr.textContent = 'يرجى إدخال مفتاح صحيح';
+    loginErr.textContent = 'يرجى إدخال مفتاح API';
     return;
   }
+  
+  if (!key.startsWith('sk-ant-')) {
+    loginErr.style.display = 'block';
+    loginErr.textContent = 'المفتاح يجب أن يبدأ بـ sk-ant-';
+    return;
+  }
+  
+  if (key.length < 16) {
+    loginErr.style.display = 'block';
+    loginErr.textContent = 'المفتاح أقصر من المتوقع';
+    return;
+  }
+  
   API_KEY = key;
   saveUserApiKey(key);
-  overlay.style.display = 'none';
+  overlay.classList.add('hidden');
   document.body.style.overflow = '';
   loginErr.style.display = 'none';
+  apiKeyInput.value = '';
 }
-// إذا ضغط دخول مع Enter
-apiKeyInput.addEventListener('keydown',function(e){if(e.key==='Enter'){tryLogin();}});
 
-// ============= باقي الأكواد الأصلية كما هي ============= //
-// - أزل const API_KEY = '...'; من الكود الأصلي (سيتم استبداله بالكود الأعلى)
-// - استخدم المتغير API_KEY مباشرة في أماكن استدعاء الـ fetch
+// إذا ضغط دخول مع Enter
+apiKeyInput.addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){
+    tryLogin();
+  }
+});
+
+// تركيز على حقل الإدخال تلقائياً عند فتح الصفحة
+if (!API_KEY) {
+  setTimeout(() => {
+    apiKeyInput.focus();
+  }, 500);
+}
+
+// ============= باقي الأكواد الأصلية ============= //
+// - استخدم المتغير API_KEY مباشرة في استدعاءات fetch
 // ...
 </script>
 </body>
